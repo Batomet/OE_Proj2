@@ -69,7 +69,7 @@ def get_closest(number, values):
 
     return final_value
 
-# Tournament Selection
+# Tournament Selection stare
 def tournament_select(individuals, tournament_size, maximalization, selected_function):
     function_results_dic = {individual: get_selected_function(individual[0], individual[1], selected_function) for individual in individuals}
     function_results_list = list(function_results_dic.items())
@@ -84,6 +84,32 @@ def tournament_select(individuals, tournament_size, maximalization, selected_fun
         while len(tournaments_winners) < len(individuals):
             tournament = random.sample(function_results_list, tournament_size)
             winner = min(tournament, key=itemgetter(1))
+            tournaments_winners.append(winner[0])
+
+    return tournaments_winners
+
+#Tournament Selection nowe
+
+def tournament_select(individuals, tournament_size, maximalization, selected_function):
+    function_results_dic = {individual: get_selected_function(individual[0], individual[1], selected_function) for
+                            individual in individuals}
+    function_results_list = list(function_results_dic.items())
+    selection_amount = 1
+    tournaments_winners = []
+    
+    if len(function_results_list) <= tournament_size:
+        if maximalization:
+            winner = max(function_results_list, key=itemgetter(1))
+        else:
+            winner = min(function_results_list, key=itemgetter(1))
+        tournaments_winners.append(winner[0])
+    else:
+        while len(tournaments_winners) < selection_amount:
+            tournament = random.sample(function_results_list, tournament_size)  
+            if maximalization:
+                winner = max(tournament, key=itemgetter(1))
+            else:
+                winner = min(tournament, key=itemgetter(1))
             tournaments_winners.append(winner[0])
 
     return tournaments_winners
